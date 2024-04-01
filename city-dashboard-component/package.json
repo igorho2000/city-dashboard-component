@@ -1,0 +1,17 @@
+{
+	"name": "city-dashboard-component",
+	"version": "0.0.0",
+	"description": "Vue Component for Taipei City Dashboard Datasets",
+	"main": "index.js",
+	"scripts": {},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/igorho2000/city-dashboard-component"
+	},
+	"keywords": [
+		"Igor Ho",
+		"Taipei City Dashboard"
+	],
+	"author": "Igor Ho",
+	"license": "MIT"
+}
