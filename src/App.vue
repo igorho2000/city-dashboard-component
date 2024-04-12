@@ -7,23 +7,54 @@ import TestComp from "./assets/backup_all_components.json";
 <template>
 	<div class="app">
 		<DashboardComponent
-			:config="TestComp.data[103]"
+			:config="TestComp.data[108]"
 			mode="default"
 			:favorite-btn="true"
 			:info-btn="true"
 		/>
 		<DashboardComponent
-			:config="TestComp.data[103]"
+			:config="TestComp.data[115]"
 			mode="large"
 			:favorite-btn="true"
 		/>
 		<DashboardComponent
-			:config="TestComp.data[103]"
+			:config="TestComp.data[108]"
 			mode="map"
 			:favorite-btn="true"
 			@toggle="
 				(value, map_config) => {
 					console.log(value, map_config);
+				}
+			"
+			@filterByParam="
+				(map_filter, map_config, x, y) => {
+					console.log(
+						'Filter By Param',
+						map_filter,
+						map_config,
+						x,
+						y
+					);
+				}
+			"
+			@filterByLayer="
+				(map_config, x) => {
+					console.log('Filter By Layer', map_config, x);
+				}
+			"
+			@clearByParamFilter="
+				(map_config) => {
+					console.log('Clear By Param Filter', map_config);
+				}
+			"
+			@clearByLayerFilter="
+				(map_config) => {
+					console.log('Clear By Layer Filter', map_config);
+				}
+			"
+			@fly="
+				(location) => {
+					console.log('Fly', location);
 				}
 			"
 			:info-btn="true"
@@ -71,7 +102,7 @@ import TestComp from "./assets/backup_all_components.json";
 			:info-btn="true"
 		/>
 		<DashboardComponent
-			:config="TestComp.data[105]"
+			:config="TestComp.data[91]"
 			mode="half"
 			:favorite-btn="true"
 			:info-btn="true"

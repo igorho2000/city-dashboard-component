@@ -69,7 +69,7 @@ const emits = defineEmits<{
 	(e: "filterByLayer", map_config: MapConfig[], x: string): void;
 	(e: "clearByParamFilter", map_config: MapConfig[]): void;
 	(e: "clearByLayerFilter", map_config: MapConfig[]): void;
-	(e: "fly", location: string[]): void;
+	(e: "fly", location: any): void;
 }>();
 
 const activeChart = ref(props.config.chart_config.types[0]);
@@ -137,10 +137,10 @@ function changeShowTagTooltipState(state: boolean) {
 }
 function returnChartComponent(name: string) {
 	switch (name) {
-		// case "DistrictChart":
-		// 	return DistrictChart;
-		// case "BarChart":
-		// 	return BarChart;
+		case "DistrictChart":
+			return DistrictChart;
+		case "BarChart":
+			return BarChart;
 		case "MapLegend":
 			return MapLegend;
 		default:
@@ -406,6 +406,10 @@ button {
 
 button:hover {
 	cursor: pointer;
+}
+
+::-webkit-scrollbar {
+	width: 0px;
 }
 
 .dashboardcomponent {

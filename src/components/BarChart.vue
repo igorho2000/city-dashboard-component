@@ -1,8 +1,9 @@
 <!-- Developed by Taipei Urban Intelligence Center 2023-2024-->
 
 <script setup lang="ts">
-import { ref, computed } from "vue";
-import { useMapStore } from "../../store/mapStore";
+import { ref, computed, defineEmits } from "vue";
+import { MapConfig, MapFilter } from "../utilities/ComponentConfig";
+import VueApexCharts from "vue3-apexcharts";
 
 const props = defineProps([
 	"chart_config",
@@ -10,8 +11,22 @@ const props = defineProps([
 	"series",
 	"map_config",
 	"map_filter",
+	"map_filter_on",
 ]);
-const mapStore = useMapStore();
+
+const emits = defineEmits<{
+	(
+		e: "filterByParam",
+		map_filter: MapFilter,
+		map_config: MapConfig[],
+		x: string | null,
+		y: string | null
+	): void;
+	(e: "filterByLayer", map_config: MapConfig[], x: string): void;
+	(e: "clearByParamFilter", map_config: MapConfig[]): void;
+	(e: "clearByLayerFilter", map_config: MapConfig[]): void;
+	(e: "fly", location: any): void;
+}>();
 
 const chartOptions = ref({
 	chart: {
@@ -46,7 +61,17 @@ const chartOptions = ref({
 	},
 	// The class "chart-tooltip" could be edited in /assets/styles/chartStyles.css
 	tooltip: {
-		custom: function ({ series, seriesIndex, dataPointIndex, w }) {
+		custom: function ({
+			series,
+			seriesIndex,
+			dataPointIndex,
+			w,
+		}: {
+			series: any;
+			seriesIndex: any;
+			dataPointIndex: any;
+			w: any;
+		}) {
 			return (
 				'<div class="chart-tooltip">' +
 				"<h6>" +
@@ -75,7 +100,7 @@ const chartOptions = ref({
 	},
 	yaxis: {
 		labels: {
-			formatter: function (value) {
+			formatter: function (value: string) {
 				return value.length > 7 ? value.slice(0, 6) + "..." : value;
 			},
 		},
@@ -86,9 +111,9 @@ const chartHeight = computed(() => {
 	return `${40 + props.series[0].data.length * 30}`;
 });
 
-const selectedIndex = ref(null);
+const selectedIndex = ref<null | string>(null);
 
-function handleDataSelection(e, chartContext, config) {
+function handleDataSelection(_e: any, _chartContext: any, config: any) {
 	if (!props.map_filter) {
 		return;
 	}
@@ -97,15 +122,18 @@ function handleDataSelection(e, chartContext, config) {
 	) {
 		// Supports filtering by xAxis
 		if (props.map_filter.mode === "byParam") {
-			mapStore.filterByParam(
+			emits(
+				"filterByParam",
 				props.map_filter,
 				props.map_config,
-				config.w.globals.labels[config.dataPointIndex]
+				config.w.globals.labels[config.dataPointIndex],
+				null
 			);
 		}
 		// Supports filtering by xAxis
 		else if (props.map_filter.mode === "byLayer") {
-			mapStore.filterByLayer(
+			emits(
+				"filterByLayer",
 				props.map_config,
 				config.w.globals.labels[config.dataPointIndex]
 			);
@@ -113,9 +141,9 @@ function handleDataSelection(e, chartContext, config) {
 		selectedIndex.value = `${config.dataPointIndex}-${config.seriesIndex}`;
 	} else {
 		if (props.map_filter.mode === "byParam") {
-			mapStore.clearByParamFilter(props.map_config);
+			emits("clearByParamFilter", props.map_config);
 		} else if (props.map_filter.mode === "byLayer") {
-			mapStore.clearByLayerFilter(props.map_config);
+			emits("clearByLayerFilter", props.map_config);
 		}
 		selectedIndex.value = null;
 	}
@@ -124,7 +152,13 @@ function handleDataSelection(e, chartContext, config) {
 
 <template>
 	<div v-if="activeChart === 'BarChart'">
-		<apexchart width="100%" :height="chartHeight" type="bar" :options="chartOptions" :series="series"
-			@dataPointSelection="handleDataSelection"></apexchart>
+		<VueApexCharts
+			width="100%"
+			:height="chartHeight"
+			type="bar"
+			:options="chartOptions"
+			:series="series"
+			@dataPointSelection="handleDataSelection"
+		></VueApexCharts>
 	</div>
 </template>

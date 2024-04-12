@@ -34,8 +34,10 @@
 .chart-tooltip h6 {
 	color: var(--dashboardcomponent-color-complement-text);
 	font-size: 0.75rem;
+	margin: 0;
 }
 .chart-tooltip span {
+	color: var(--dashboardcomponent-color-normal-text);
 	font-size: var(--dashboardcomponent-font-ms);
 }
 .apexcharts-canvas,

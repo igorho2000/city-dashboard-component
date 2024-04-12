@@ -23,7 +23,7 @@ const emits = defineEmits<{
 	(e: "filterByLayer", map_config: MapConfig[], x: string): void;
 	(e: "clearByParamFilter", map_config: MapConfig[]): void;
 	(e: "clearByLayerFilter", map_config: MapConfig[]): void;
-	(e: "fly", location: string[]): void;
+	(e: "fly", location: any): void;
 }>();
 
 const selectedIndex = ref<null | number>(null);
@@ -108,10 +108,6 @@ function handleDataSelection(index: number) {
 button {
 	border: none;
 	background-color: transparent;
-}
-
-button:hover {
-	cursor: pointer;
 }
 .maplegend {
 	width: 100%;

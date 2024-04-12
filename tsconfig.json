@@ -20,9 +20,19 @@
 		"noFallthroughCasesInSwitch": true,
 
 		"outDir": "dist",
-		"declaration": true
+		"declaration": true,
+		"paths": {
+			"vue3-apexcharts": [
+				"./node_modules/vue3-apexcharts/typings/vue-apexcharts.d.ts"
+			]
+		}
 	},
-	"include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue"],
+	"include": [
+		"src/**/*.ts",
+		"src/**/*.tsx",
+		"src/**/*.vue",
+		"node_modules/vue3-apexcharts/src/vue-apexcharts.d.ts"
+	],
 	"exclude": ["src/App.vue", "src/main.ts"],
 	"references": [{ "path": "./tsconfig.node.json" }]
 }
