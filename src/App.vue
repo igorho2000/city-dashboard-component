@@ -1,24 +1,39 @@
 <script setup lang="ts">
+import { ComponentConfig } from './utilities/componentConfig';
 import DashboardComponent from './DashboardComponent.vue';
+import TestComp from "./assets/backup_all_components.json";
 </script>
 
 <template>
-	<DashboardComponent msg="Igor Ho" />
+	<div class="app">
+		<DashboardComponent :config="TestComp.data[103]" mode="default" :favorite-btn="true"
+			@toggle="(value, map_config) => { console.log(value, map_config) }" />
+		<DashboardComponent :config="TestComp.data[103]" mode="large" :favorite-btn="true"
+			@toggle="(value, map_config) => { console.log(value, map_config) }" />
+		<DashboardComponent :config="TestComp.data[103]" mode="map" :favorite-btn="true"
+			@toggle="(value, map_config) => { console.log(value, map_config) }" />
+		<DashboardComponent :config="TestComp.data[103]" mode="halfmap" :favorite-btn="true"
+			@toggle="(value, map_config) => { console.log(value, map_config) }" />
+		<DashboardComponent :config="TestComp.data[103]" mode="half" :favorite-btn="true"
+			@toggle="(value, map_config) => { console.log(value, map_config) }" />
+		<DashboardComponent :config="TestComp.data[103]" mode="preview" :favorite-btn="true"
+			@toggle="(value, map_config) => { console.log(value, map_config) }" />
+	</div>
 </template>
 
-<style scoped>
-.logo {
-	height: 6em;
-	padding: 1.5em;
-	will-change: filter;
-	transition: filter 300ms;
+<style lang="scss">
+.app {
+	width: 100vw;
+	height: 100vh;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	grid-template-rows: 1fr 1fr;
+	justify-content: center;
+	align-items: center;
 }
 
-.logo:hover {
-	filter: drop-shadow(0 0 2em #646cffaa);
+body {
+	margin: 0;
+	padding: 0;
 }
-
-.logo.vue:hover {
-	filter: drop-shadow(0 0 2em #42b883aa);
-}
-</style>./components/DashboardComponent.vue./DashboardComponent.vue
+</style>

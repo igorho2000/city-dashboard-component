@@ -19,13 +19,19 @@
 		"dev": "vite",
 		"build": "vite build && vue-tsc --emitDeclarationOnly",
 		"types": "vue-tsc",
-		"preview": "vite preview"
+		"preview": "vite preview",
+		"lint": "eslint --fix --ext .js,.ts,.vue ."
 	},
 	"dependencies": {
-		"vue": "^3.4.21"
+		"apexcharts": "^3.48.0",
+		"material-icons": "^1.13.12",
+		"vue": "^3.4.21",
+		"vue3-apexcharts": "^1.5.2"
 	},
 	"devDependencies": {
 		"@vitejs/plugin-vue": "^5.0.4",
+		"eslint-plugin-vue": "^9.20.1",
+		"sass": "^1.70.0",
 		"typescript": "^5.2.2",
 		"vite": "^5.2.0",
 		"vue-tsc": "^2.0.6"
