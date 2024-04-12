@@ -3071,7 +3071,7 @@
 			],
 			"name": "土壤液化潛勢",
 			"source": "工務局",
-			"time_from": null,
+			"time_from": "static",
 			"time_to": null,
 			"update_freq": null,
 			"update_freq_unit": null,

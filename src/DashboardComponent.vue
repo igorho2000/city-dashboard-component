@@ -5,11 +5,32 @@ import "./styles/toggleswitch.css";
 import "material-icons/iconfont/material-icons.css";
 import { getComponentDataTimeframe } from "./utilities/dataTimeframe";
 import { timeTerms } from "./utilities/AllTimes";
-import { ComponentConfig, MapConfig } from "./utilities/ComponentConfig";
+import {
+	ComponentConfig,
+	MapConfig,
+	MapFilter,
+} from "./utilities/ComponentConfig";
 import { chartTypes } from "./utilities/chartTypes";
 
 import ComponentTag from "./components/ComponentTag.vue";
 import TagTooltip from "./components/TagTooltip.vue";
+import DistrictChart from "./components/DistrictChart.vue";
+// import DonutChart from "./components/DonutChart.vue";
+import BarChart from "./components/BarChart.vue";
+// import TreemapChart from "./components/TreemapChart.vue";
+// import ColumnChart from "./components/ColumnChart.vue";
+// import BarPercentChart from "./components/BarPercentChart.vue";
+// import GuageChart from "./components/GuageChart.vue";
+// import RadarChart from "./components/RadarChart.vue";
+// import TimelineSeparateChart from "./components/TimelineSeparateChart.vue";
+// import TimelineStackedChart from "./components/TimelineStackedChart.vue";
+import MapLegend from "./components/MapLegend.vue";
+// import MetroChart from "./components/MetroChart.vue";
+// import HeatmapChart from "./components/HeatmapChart.vue";
+// import PolarAreaChart from "./components/PolarAreaChart.vue";
+// import ColumnLineChart from "./components/ColumnLineChart.vue";
+// import BarChartWithGoal from "./components/BarChartWithGoal.vue";
+// import IconPercentChart from "./components/IconPercentChart.vue";
 
 const props = defineProps({
 	style: { type: Object, default: () => ({}) },
@@ -38,6 +59,17 @@ const emits = defineEmits<{
 	(e: "add", id: number, name: string): void;
 	(e: "info", config: ComponentConfig): void;
 	(e: "toggle", value: boolean, map_config: MapConfig[] | null): void;
+	(
+		e: "filterByParam",
+		map_filter: MapFilter,
+		map_config: MapConfig[],
+		x: string | null,
+		y: string | null
+	): void;
+	(e: "filterByLayer", map_config: MapConfig[], x: string): void;
+	(e: "clearByParamFilter", map_config: MapConfig[]): void;
+	(e: "clearByLayerFilter", map_config: MapConfig[]): void;
+	(e: "fly", location: string[]): void;
 }>();
 
 const activeChart = ref(props.config.chart_config.types[0]);
@@ -102,6 +134,18 @@ function updateMouseLocation(e: any) {
 // Updates whether to show the tag tooltip
 function changeShowTagTooltipState(state: boolean) {
 	showTagTooltip.value = state;
+}
+function returnChartComponent(name: string) {
+	switch (name) {
+		// case "DistrictChart":
+		// 	return DistrictChart;
+		// case "BarChart":
+		// 	return BarChart;
+		case "MapLegend":
+			return MapLegend;
+		default:
+			return MapLegend;
+	}
 }
 </script>
 
@@ -235,11 +279,37 @@ function changeShowTagTooltipState(state: boolean) {
 			:class="{
 				'dashboardcomponent-chart': true,
 				'half-chart': mode === 'half',
-				'mapopen-chart': mode.includes('map'),
+				'mapopen-chart': mode === 'map',
+				'halfmapopen-chart': mode === 'halfmap',
 			}"
 			v-else-if="config.chart_data && (toggleOn || !mode.includes('map'))"
 		>
-			<!-- The components referenced here can be edited in /components/charts -->
+			<component
+				v-for="item in config.chart_config.types"
+				:activeChart="activeChart"
+				:is="returnChartComponent(item)"
+				:chart_config="config.chart_config"
+				:series="config.chart_data"
+				:map_config="config.map_config"
+				:map_filter="config.map_filter"
+				:map_filter_on="mode.includes('map')"
+				:key="`${props.config.index}-${item}-chart`"
+				@filterByParam="
+					(map_filter, map_config, x, y) =>
+						$emit('filterByParam', map_filter, map_config, x, y)
+				"
+				@filterByLayer="
+					(map_config, x) => $emit('filterByLayer', map_config, x)
+				"
+				@clearByParamFilter="
+					(map_config) => $emit('clearByParamFilter', map_config)
+				"
+				@clearByLayerFilter="
+					(map_config) => $emit('clearByLayerFilter', map_config)
+				"
+				@fly="(location) => $emit('fly', location)"
+			>
+			</component>
 		</div>
 		<div
 			v-else-if="
@@ -664,6 +734,11 @@ button:hover {
 .halfmapopen {
 	height: 200px;
 	max-height: 200px;
+
+	&-chart {
+		padding-top: 0;
+		height: 75%;
+	}
 }
 
 .preview {

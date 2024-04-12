@@ -10,22 +10,12 @@ import TestComp from "./assets/backup_all_components.json";
 			:config="TestComp.data[103]"
 			mode="default"
 			:favorite-btn="true"
-			@toggle="
-				(value, map_config) => {
-					console.log(value, map_config);
-				}
-			"
 			:info-btn="true"
 		/>
 		<DashboardComponent
 			:config="TestComp.data[103]"
 			mode="large"
 			:favorite-btn="true"
-			@toggle="
-				(value, map_config) => {
-					console.log(value, map_config);
-				}
-			"
 		/>
 		<DashboardComponent
 			:config="TestComp.data[103]"
@@ -39,7 +29,7 @@ import TestComp from "./assets/backup_all_components.json";
 			:info-btn="true"
 		/>
 		<DashboardComponent
-			:config="TestComp.data[103]"
+			:config="TestComp.data[115]"
 			mode="halfmap"
 			:favorite-btn="true"
 			@toggle="
@@ -47,28 +37,49 @@ import TestComp from "./assets/backup_all_components.json";
 					console.log(value, map_config);
 				}
 			"
+			@filterByParam="
+				(map_filter, map_config, x, y) => {
+					console.log(
+						'Filter By Param',
+						map_filter,
+						map_config,
+						x,
+						y
+					);
+				}
+			"
+			@filterByLayer="
+				(map_config, x) => {
+					console.log('Filter By Layer', map_config, x);
+				}
+			"
+			@clearByParamFilter="
+				(map_config) => {
+					console.log('Clear By Param Filter', map_config);
+				}
+			"
+			@clearByLayerFilter="
+				(map_config) => {
+					console.log('Clear By Layer Filter', map_config);
+				}
+			"
+			@fly="
+				(location) => {
+					console.log('Fly', location);
+				}
+			"
 			:info-btn="true"
 		/>
 		<DashboardComponent
-			:config="TestComp.data[103]"
+			:config="TestComp.data[105]"
 			mode="half"
 			:favorite-btn="true"
-			@toggle="
-				(value, map_config) => {
-					console.log(value, map_config);
-				}
-			"
 			:info-btn="true"
 		/>
 		<DashboardComponent
 			:config="TestComp.data[103]"
 			mode="preview"
 			:favorite-btn="true"
-			@toggle="
-				(value, map_config) => {
-					console.log(value, map_config);
-				}
-			"
 			:add-btn="true"
 			:info-btn="true"
 			info-btn-text="資訊頁面"

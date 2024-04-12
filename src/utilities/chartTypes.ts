@@ -20,5 +20,5 @@ export const chartTypes: chartType = {
 	BarChartWithGoal: "長條圖(目標)",
 	IconPercentChart: "圖示比例圖",
 	SpeedometerChart: "儀表板圖",
-	MapLegend: "地圖圖例",
+	MapLegend: "地圖圖例", // V
 };
