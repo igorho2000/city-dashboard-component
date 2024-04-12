@@ -1,4 +1,8 @@
-export const chartTypes = {
+interface chartType {
+	[index: string]: string;
+}
+
+export const chartTypes: chartType = {
 	DonutChart: "圓餅圖",
 	BarChart: "橫向長條圖",
 	ColumnChart: "縱向長條圖",
@@ -17,33 +21,4 @@ export const chartTypes = {
 	IconPercentChart: "圖示比例圖",
 	SpeedometerChart: "儀表板圖",
 	MapLegend: "地圖圖例",
-};
-
-export const chartsPerDataType = {
-	two_d: [
-		"DonutChart",
-		"BarChart",
-		"ColumnChart",
-		"TreemapChart",
-		"DistrictChart",
-		"RadarChart",
-		"PolarAreaChart",
-		"MetroChart",
-	],
-	three_d: [
-		"ColumnChart",
-		"BarPercentChart",
-		"RadarChart",
-		"DistrictChart",
-		"HeatmapChart",
-		"PolarAreaChart",
-	],
-	time: ["TimelineSeparateChart", "TimelineStackedChart", "ColumnLineChart"],
-	percent: [
-		"GuageChart",
-		"BarPercentChart",
-		"BarChartWithGoal",
-		"IconPercentChart",
-	],
-	map_legend: ["MapLegend"],
 };
