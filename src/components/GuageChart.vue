@@ -1,7 +1,7 @@
 <!-- Developed by Taipei Urban Intelligence Center 2023-2024-->
 
 <script setup lang="ts">
-import { ref, computed, defineEmits } from "vue";
+import { ref, computed } from "vue";
 import { MapConfig, MapFilter } from "../utilities/ComponentConfig";
 import VueApexCharts from "vue3-apexcharts";
 
@@ -28,87 +28,82 @@ const emits = defineEmits<{
 	(e: "fly", location: any): void;
 }>();
 
+// Guage charts in apexcharts uses a slightly different data format from other chart types
+// As such, the following parsing function are required
+const parseSeries = computed(() => {
+	let output = {
+		series: [] as number[],
+		tooltipText: [] as string[],
+	};
+	let parsedSeries = [];
+	let parsedTooltip = [];
+	for (let i = 0; i < props.series[0].data.length; i++) {
+		let total = props.series[0].data[i] + props.series[1].data[i];
+		parsedSeries.push(Math.round((props.series[0].data[i] / total) * 100));
+		parsedTooltip.push(`${props.series[0].data[i]} / ${total}`);
+	}
+	output.series = parsedSeries;
+	output.tooltipText = parsedTooltip;
+	return output;
+});
+
+// chartOptions needs to be in the bottom since it uses computed data
 const chartOptions = ref({
 	chart: {
-		offsetY: 15,
-		stacked: true,
 		toolbar: {
 			show: false,
 		},
 	},
 	colors: [...props.chart_config.color],
-	dataLabels: {
-		offsetX: 20,
-		textAnchor: "start",
-	},
-	grid: {
-		show: false,
-	},
+	labels: props.chart_config.categories ? props.chart_config.categories : [],
 	legend: {
-		show: false,
+		offsetY: -10,
+		onItemClick: {
+			toggleDataSeries: false,
+		},
+		position: "bottom",
+		show: parseSeries.value.series.length > 1 ? true : false,
 	},
 	plotOptions: {
-		bar: {
-			borderRadius: 2,
-			distributed: true,
-			horizontal: true,
+		radialBar: {
+			dataLabels: {
+				name: {
+					color: "#888787",
+					fontSize: "0.8rem",
+				},
+				// total: {
+				// 	color: "#888787",
+				// 	fontSize: "0.8rem",
+				// 	label: "平均",
+				// 	show: true,
+				// },
+				value: {
+					color: "#888787",
+					fontSize: "16px",
+					offsetY: 5,
+				},
+			},
+			track: {
+				background: "#777",
+			},
 		},
 	},
-	stroke: {
-		colors: ["#282a2c"],
-		show: true,
-		width: 0,
-	},
-	// The class "chart-tooltip" could be edited in /assets/styles/chartStyles.css
 	tooltip: {
-		custom: function ({
-			series,
-			seriesIndex,
-			dataPointIndex,
-			w,
-		}: {
-			series: any;
-			seriesIndex: any;
-			dataPointIndex: any;
-			w: any;
-		}) {
+		custom: function ({ seriesIndex, w }: { seriesIndex: any; w: any }) {
+			// The class "chart-tooltip" could be edited in /assets/styles/chartStyles.css
 			return (
 				'<div class="chart-tooltip">' +
 				"<h6>" +
-				w.globals.labels[dataPointIndex] +
+				w.globals.seriesNames[seriesIndex] +
 				"</h6>" +
 				"<span>" +
-				series[seriesIndex][dataPointIndex] +
-				` ${props.chart_config.unit}` +
+				`${parseSeries.value.tooltipText[seriesIndex]}` +
 				"</span>" +
 				"</div>"
 			);
 		},
-		followCursor: true,
+		enabled: true,
 	},
-	xaxis: {
-		axisBorder: {
-			show: false,
-		},
-		axisTicks: {
-			show: false,
-		},
-		labels: {
-			show: false,
-		},
-		type: "category",
-	},
-	yaxis: {
-		labels: {
-			formatter: function (value: string) {
-				return value.length > 7 ? value.slice(0, 6) + "..." : value;
-			},
-		},
-	},
-});
-
-const chartHeight = computed(() => {
-	return `${40 + props.series[0].data.length * 30}`;
 });
 
 const selectedIndex = ref<null | string>(null);
@@ -151,15 +146,15 @@ function handleDataSelection(_e: any, _chartContext: any, config: any) {
 </script>
 
 <template>
-	<div v-if="activeChart === 'BarChart'">
+	<div v-if="activeChart === 'GuageChart'">
 		<VueApexCharts
-			width="100%"
-			:height="chartHeight"
-			type="bar"
+			width="80%"
+			height="300px"
+			type="radialBar"
 			:options="chartOptions"
-			:series="series"
+			:series="parseSeries.series"
 			@dataPointSelection="handleDataSelection"
-		></VueApexCharts>
+		>
+		</VueApexCharts>
 	</div>
 </template>
-../utilities/ComponentConfig

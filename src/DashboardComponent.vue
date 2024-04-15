@@ -15,21 +15,21 @@ import { chartTypes } from "./utilities/chartTypes";
 import ComponentTag from "./components/ComponentTag.vue";
 import TagTooltip from "./components/TagTooltip.vue";
 import DistrictChart from "./components/DistrictChart.vue";
-// import DonutChart from "./components/DonutChart.vue";
+import DonutChart from "./components/DonutChart.vue";
 import BarChart from "./components/BarChart.vue";
-// import TreemapChart from "./components/TreemapChart.vue";
+import TreemapChart from "./components/TreemapChart.vue";
 import ColumnChart from "./components/ColumnChart.vue";
-// import BarPercentChart from "./components/BarPercentChart.vue";
-// import GuageChart from "./components/GuageChart.vue";
-// import RadarChart from "./components/RadarChart.vue";
+import BarPercentChart from "./components/BarPercentChart.vue";
+import GuageChart from "./components/GuageChart.vue";
+import RadarChart from "./components/RadarChart.vue";
 import TimelineSeparateChart from "./components/TimelineSeparateChart.vue";
 import TimelineStackedChart from "./components/TimelineStackedChart.vue";
 import MapLegend from "./components/MapLegend.vue";
 import MetroChart from "./components/MetroChart.vue";
-// import HeatmapChart from "./components/HeatmapChart.vue";
+import HeatmapChart from "./components/HeatmapChart.vue";
 import PolarAreaChart from "./components/PolarAreaChart.vue";
-// import ColumnLineChart from "./components/ColumnLineChart.vue";
-// import BarChartWithGoal from "./components/BarChartWithGoal.vue";
+import ColumnLineChart from "./components/ColumnLineChart.vue";
+import BarChartWithGoal from "./components/BarChartWithGoal.vue";
 import IconPercentChart from "./components/IconPercentChart.vue";
 
 const props = defineProps({
@@ -155,6 +155,22 @@ function returnChartComponent(name: string) {
 			return IconPercentChart;
 		case "ColumnChart":
 			return ColumnChart;
+		case "DonutChart":
+			return DonutChart;
+		case "TreemapChart":
+			return TreemapChart;
+		case "BarPercentChart":
+			return BarPercentChart;
+		case "GuageChart":
+			return GuageChart;
+		case "RadarChart":
+			return RadarChart;
+		case "HeatmapChart":
+			return HeatmapChart;
+		case "ColumnLineChart":
+			return ColumnLineChart;
+		case "BarChartWithGoal":
+			return BarChartWithGoal;
 		default:
 			return MapLegend;
 	}

@@ -107,7 +107,7 @@ const chartOptions = ref({
 const selectedIndex = ref<null | string>(null);
 
 function handleDataSelection(_e: any, _chartContext: any, config: any) {
-	if (!props.map_filter) {
+	if (!props.map_filter || !props.map_filter_on) {
 		return;
 	}
 	if (
@@ -155,3 +155,4 @@ function handleDataSelection(_e: any, _chartContext: any, config: any) {
 		></VueApexCharts>
 	</div>
 </template>
+../utilities/ComponentConfig

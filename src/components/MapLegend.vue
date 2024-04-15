@@ -170,3 +170,4 @@ button {
 	}
 }
 </style>
+../utilities/ComponentConfig

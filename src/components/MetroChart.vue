@@ -264,3 +264,4 @@ const parsedSeries = computed(() => {
 	}
 }
 </style>
+../utilities/ComponentConfig

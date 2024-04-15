@@ -1,7 +1,7 @@
 <!-- Developed by Taipei Urban Intelligence Center 2023-2024-->
 
 <script setup lang="ts">
-import { ref, computed, defineEmits } from "vue";
+import { ref, computed } from "vue";
 import { MapConfig, MapFilter } from "../utilities/ComponentConfig";
 import VueApexCharts from "vue3-apexcharts";
 
@@ -30,16 +30,19 @@ const emits = defineEmits<{
 
 const chartOptions = ref({
 	chart: {
-		offsetY: 15,
-		stacked: true,
+		borderRadius: 5,
 		toolbar: {
 			show: false,
 		},
 	},
 	colors: [...props.chart_config.color],
 	dataLabels: {
-		offsetX: 20,
-		textAnchor: "start",
+		formatter: function (
+			val: any,
+			{ dataPointIndex }: { dataPointIndex: any }
+		) {
+			return dataPointIndex > 5 ? "" : val;
+		},
 	},
 	grid: {
 		show: false,
@@ -48,18 +51,16 @@ const chartOptions = ref({
 		show: false,
 	},
 	plotOptions: {
-		bar: {
-			borderRadius: 2,
+		treemap: {
 			distributed: true,
-			horizontal: true,
+			shadeIntensity: 0,
 		},
 	},
 	stroke: {
 		colors: ["#282a2c"],
 		show: true,
-		width: 0,
+		width: 2,
 	},
-	// The class "chart-tooltip" could be edited in /assets/styles/chartStyles.css
 	tooltip: {
 		custom: function ({
 			series,
@@ -72,10 +73,11 @@ const chartOptions = ref({
 			dataPointIndex: any;
 			w: any;
 		}) {
+			// The class "chart-tooltip" could be edited in /assets/styles/chartStyles.css
 			return (
 				'<div class="chart-tooltip">' +
 				"<h6>" +
-				w.globals.labels[dataPointIndex] +
+				w.globals.categoryLabels[dataPointIndex] +
 				"</h6>" +
 				"<span>" +
 				series[seriesIndex][dataPointIndex] +
@@ -84,7 +86,6 @@ const chartOptions = ref({
 				"</div>"
 			);
 		},
-		followCursor: true,
 	},
 	xaxis: {
 		axisBorder: {
@@ -98,17 +99,14 @@ const chartOptions = ref({
 		},
 		type: "category",
 	},
-	yaxis: {
-		labels: {
-			formatter: function (value: string) {
-				return value.length > 7 ? value.slice(0, 6) + "..." : value;
-			},
-		},
-	},
 });
 
-const chartHeight = computed(() => {
-	return `${40 + props.series[0].data.length * 30}`;
+const sum = computed(() => {
+	let sum = 0;
+	props.series[0].data.forEach(
+		(item: { x: string; y: number }) => (sum += item.y)
+	);
+	return Math.round(sum * 100) / 100;
 });
 
 const selectedIndex = ref<null | string>(null);
@@ -126,7 +124,7 @@ function handleDataSelection(_e: any, _chartContext: any, config: any) {
 				"filterByParam",
 				props.map_filter,
 				props.map_config,
-				config.w.globals.labels[config.dataPointIndex],
+				config.w.globals.categoryLabels[config.dataPointIndex],
 				null
 			);
 		}
@@ -135,7 +133,7 @@ function handleDataSelection(_e: any, _chartContext: any, config: any) {
 			emits(
 				"filterByLayer",
 				props.map_config,
-				config.w.globals.labels[config.dataPointIndex]
+				config.w.globals.categoryLabels[config.dataPointIndex]
 			);
 		}
 		selectedIndex.value = `${config.dataPointIndex}-${config.seriesIndex}`;
@@ -151,15 +149,40 @@ function handleDataSelection(_e: any, _chartContext: any, config: any) {
 </script>
 
 <template>
-	<div v-if="activeChart === 'BarChart'">
+	<div v-if="activeChart === 'TreemapChart'" class="treemapchart">
+		<div class="treemapchart-title">
+			<h5>總合</h5>
+			<h6>{{ sum }} {{ chart_config.unit }}</h6>
+		</div>
 		<VueApexCharts
 			width="100%"
-			:height="chartHeight"
-			type="bar"
+			type="treemap"
 			:options="chartOptions"
 			:series="series"
 			@dataPointSelection="handleDataSelection"
 		></VueApexCharts>
 	</div>
 </template>
-../utilities/ComponentConfig
+
+<style scoped lang="scss">
+.treemapchart {
+	&-title {
+		display: flex;
+		justify-content: center;
+		flex-direction: column;
+		margin: 0.5rem 0 -0.5rem;
+
+		h5 {
+			margin: 0;
+			color: var(--dashboardcomponent-color-complement-text);
+		}
+
+		h6 {
+			margin: 0;
+			color: var(--dashboardcomponent-color-complement-text);
+			font-size: var(--dashboardcomponent-font-m);
+			font-weight: 400;
+		}
+	}
+}
+</style>

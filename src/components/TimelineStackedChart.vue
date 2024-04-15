@@ -102,6 +102,9 @@ const chartOptions = ref({
 		},
 		type: "datetime",
 	},
+	yaxis: {
+		min: 0,
+	},
 });
 
 function parseTime(time: string) {
@@ -120,3 +123,4 @@ function parseTime(time: string) {
 		></VueApexCharts>
 	</div>
 </template>
+../utilities/ComponentConfig

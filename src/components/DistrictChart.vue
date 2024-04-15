@@ -516,3 +516,4 @@ function handleDataSelection(index: number) {
 	}
 }
 </style>
+../utilities/ComponentConfig

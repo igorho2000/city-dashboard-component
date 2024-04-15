@@ -1,7 +1,8 @@
-<!-- Developed by Taipei Urban Intelligence Center 2023-2024-->
+<!-- Developed by Open Possible (台灣大哥大), Taipei Codefest 2023 -->
+<!-- Refactored and Maintained by Taipei Urban Intelligence Center -->
 
 <script setup lang="ts">
-import { ref, computed, defineEmits } from "vue";
+import { computed, ref } from "vue";
 import { MapConfig, MapFilter } from "../utilities/ComponentConfig";
 import VueApexCharts from "vue3-apexcharts";
 
@@ -28,36 +29,63 @@ const emits = defineEmits<{
 	(e: "fly", location: any): void;
 }>();
 
+const parseSeries = computed(() => {
+	let parsedSeries = [];
+
+	for (let i = 0; i < props.chart_config.categories.length; i++) {
+		const goalItem = {
+			name: "目標",
+			value: props.series[0].data[i] + props.series[1].data[i],
+			strokeWidth: 4,
+			strokeColor: props.chart_config.color[1] || "#fff",
+		};
+
+		const parsedItem = {
+			x: props.chart_config.categories[i],
+			y: props.series[0].data[i],
+			goals: [goalItem],
+		};
+		parsedSeries.push(parsedItem);
+	}
+	return [{ data: parsedSeries }];
+});
+
 const chartOptions = ref({
 	chart: {
-		offsetY: 15,
 		stacked: true,
 		toolbar: {
 			show: false,
 		},
 	},
-	colors: [...props.chart_config.color],
+	colors: [props.chart_config.color[0]],
 	dataLabels: {
-		offsetX: 20,
-		textAnchor: "start",
+		enabled: false,
 	},
 	grid: {
 		show: false,
 	},
 	legend: {
-		show: false,
+		show: true,
+		showForSingleSeries: true,
+		customLegendItems: ["實際數值", "期望數值"],
+		markers: {
+			fillColors: [
+				props.chart_config.color[0],
+				props.chart_config.color[1] || "#fff",
+			],
+			radius: 0,
+			height: [12, 4],
+		},
 	},
 	plotOptions: {
 		bar: {
-			borderRadius: 2,
+			borderRadius: 4,
 			distributed: true,
 			horizontal: true,
 		},
 	},
-	stroke: {
-		colors: ["#282a2c"],
-		show: true,
-		width: 0,
+	fill: {
+		opacity: 1,
 	},
 	// The class "chart-tooltip" could be edited in /assets/styles/chartStyles.css
 	tooltip: {
@@ -72,17 +100,18 @@ const chartOptions = ref({
 			dataPointIndex: any;
 			w: any;
 		}) {
-			return (
-				'<div class="chart-tooltip">' +
-				"<h6>" +
-				w.globals.labels[dataPointIndex] +
-				"</h6>" +
-				"<span>" +
-				series[seriesIndex][dataPointIndex] +
-				` ${props.chart_config.unit}` +
-				"</span>" +
-				"</div>"
-			);
+			const label = w.globals.labels[dataPointIndex];
+			const value = series[seriesIndex][dataPointIndex];
+			const goalValue =
+				w.globals.seriesGoals[seriesIndex][dataPointIndex]?.[0]?.value;
+
+			return `
+			<div class="chart-tooltip">
+				<h6>${label}-實際數值</h6>
+				<span>${value} ${props.chart_config.unit}</span>
+				<h6>${label}-目標數值</h6>
+				<span>${goalValue} ${props.chart_config.unit}</span>
+			</div>`;
 		},
 		followCursor: true,
 	},
@@ -94,7 +123,7 @@ const chartOptions = ref({
 			show: false,
 		},
 		labels: {
-			show: false,
+			show: true,
 		},
 		type: "category",
 	},
@@ -108,9 +137,9 @@ const chartOptions = ref({
 });
 
 const chartHeight = computed(() => {
-	return `${40 + props.series[0].data.length * 30}`;
+	const height = 80 + props.series[0].data.length * 60;
+	return height;
 });
-
 const selectedIndex = ref<null | string>(null);
 
 function handleDataSelection(_e: any, _chartContext: any, config: any) {
@@ -151,15 +180,23 @@ function handleDataSelection(_e: any, _chartContext: any, config: any) {
 </script>
 
 <template>
-	<div v-if="activeChart === 'BarChart'">
+	<div
+		v-if="activeChart === 'BarChartWithGoal'"
+		:style="{
+			marginTop: `${
+				chart_config.categories.length < 3
+					? 90 - chart_config.categories.length * 30
+					: 0
+			}px`,
+		}"
+	>
 		<VueApexCharts
+			type="bar"
 			width="100%"
 			:height="chartHeight"
-			type="bar"
 			:options="chartOptions"
-			:series="series"
+			:series="parseSeries"
 			@dataPointSelection="handleDataSelection"
 		></VueApexCharts>
 	</div>
 </template>
-../utilities/ComponentConfig

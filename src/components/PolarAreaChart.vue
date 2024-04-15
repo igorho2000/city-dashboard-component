@@ -225,7 +225,7 @@ function updateMouseLocation(e: any) {
 const selectedIndex = ref<null | string>(null);
 
 function handleDataSelection(xParam: string, yParam: string) {
-	if (!props.map_filter) {
+	if (!props.map_filter || !props.map_filter_on) {
 		return;
 	}
 	if (`${xParam}-${yParam}` !== selectedIndex.value) {
@@ -477,3 +477,4 @@ p {
 	}
 }
 </style>
+../utilities/ComponentConfig

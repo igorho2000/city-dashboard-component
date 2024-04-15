@@ -23,33 +23,31 @@ const emits = defineEmits<{
 
 const chartOptions = ref({
 	chart: {
+		stacked: true,
 		toolbar: {
 			show: false,
-			tools: {
-				zoom: false,
-			},
 		},
 	},
 	colors: [...props.chart_config.color],
-	dataLabels: {
-		enabled: false,
-	},
 	grid: {
 		show: false,
 	},
 	legend: {
-		show: props.series.length > 1 ? true : false,
+		show: props.chart_config.categories ? true : false,
 	},
 	markers: {
-		hover: {
-			size: 5,
-		},
 		size: 3,
 		strokeWidth: 0,
 	},
+	plotOptions: {
+		radar: {
+			polygons: {
+				connectorColors: "#444",
+				strokeColors: "#555",
+			},
+		},
+	},
 	stroke: {
-		colors: [...props.chart_config.color],
-		curve: "smooth",
 		show: true,
 		width: 2,
 	},
@@ -69,10 +67,12 @@ const chartOptions = ref({
 			return (
 				'<div class="chart-tooltip">' +
 				"<h6>" +
-				`${parseTime(
-					w.config.series[seriesIndex].data[dataPointIndex].x
-				)}` +
-				` - ${w.globals.seriesNames[seriesIndex]}` +
+				w.globals.labels[dataPointIndex] +
+				`${
+					props.chart_config.categories
+						? "-" + w.globals.seriesNames[seriesIndex]
+						: ""
+				}` +
 				"</h6>" +
 				"<span>" +
 				series[seriesIndex][dataPointIndex] +
@@ -83,43 +83,53 @@ const chartOptions = ref({
 		},
 	},
 	xaxis: {
-		axisBorder: {
-			color: "#555",
-			height: "0.8",
-		},
-		axisTicks: {
-			show: false,
-		},
-		crosshairs: {
-			show: false,
-		},
+		categories: props.chart_config.categories
+			? props.chart_config.categories
+			: [],
 		labels: {
-			datetimeUTC: false,
+			offsetY: 5,
+			formatter: function (value: string) {
+				return value.length > 7 ? value.slice(0, 6) + "..." : value;
+			},
 		},
-		tooltip: {
-			enabled: false,
-		},
-		type: "datetime",
+		type: "category",
 	},
 	yaxis: {
-		min: 0,
+		axisBorder: {
+			color: "#000",
+		},
+		labels: {
+			formatter: (_value: string) => {
+				return "";
+			},
+		},
+		// To fix a bug when there is more than 1 series
+		// Orginal behavior: max will default to the max sum of each series
+		max: function (max: number) {
+			if (!props.chart_config.categories) {
+				return max;
+			}
+			let adjustedMax = 0;
+			props.series.forEach((element: { data: number[] }) => {
+				const maxOfSeries = Math.max.apply(null, element.data);
+				if (maxOfSeries > adjustedMax) {
+					adjustedMax = maxOfSeries;
+				}
+			});
+			return adjustedMax * 1.1;
+		},
 	},
 });
-
-function parseTime(time: string) {
-	return time.replace("T", " ").replace("+08:00", " ");
-}
 </script>
 
 <template>
-	<div v-if="activeChart === 'TimelineSeparateChart'">
+	<div v-if="activeChart === 'RadarChart'">
 		<VueApexCharts
 			width="100%"
-			height="260px"
-			type="line"
+			height="270px"
+			type="radar"
 			:options="chartOptions"
 			:series="series"
 		></VueApexCharts>
 	</div>
 </template>
-../utilities/ComponentConfig
