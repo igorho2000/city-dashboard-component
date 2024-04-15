@@ -2,12 +2,14 @@
 import { ComponentConfig } from "./utilities/componentConfig";
 import DashboardComponent from "./DashboardComponent.vue";
 import TestComp from "./assets/backup_all_components.json";
+
+// Can Test: 73, 79, 91, 103, 108, 115, 151
 </script>
 
 <template>
 	<div class="app">
 		<DashboardComponent
-			:config="TestComp.data[108]"
+			:config="TestComp.data[155]"
 			mode="default"
 			:favorite-btn="true"
 			:info-btn="true"
@@ -18,7 +20,7 @@ import TestComp from "./assets/backup_all_components.json";
 			:favorite-btn="true"
 		/>
 		<DashboardComponent
-			:config="TestComp.data[108]"
+			:config="TestComp.data[155]"
 			mode="map"
 			:favorite-btn="true"
 			@toggle="

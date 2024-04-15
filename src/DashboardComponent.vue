@@ -18,19 +18,19 @@ import DistrictChart from "./components/DistrictChart.vue";
 // import DonutChart from "./components/DonutChart.vue";
 import BarChart from "./components/BarChart.vue";
 // import TreemapChart from "./components/TreemapChart.vue";
-// import ColumnChart from "./components/ColumnChart.vue";
+import ColumnChart from "./components/ColumnChart.vue";
 // import BarPercentChart from "./components/BarPercentChart.vue";
 // import GuageChart from "./components/GuageChart.vue";
 // import RadarChart from "./components/RadarChart.vue";
-// import TimelineSeparateChart from "./components/TimelineSeparateChart.vue";
-// import TimelineStackedChart from "./components/TimelineStackedChart.vue";
+import TimelineSeparateChart from "./components/TimelineSeparateChart.vue";
+import TimelineStackedChart from "./components/TimelineStackedChart.vue";
 import MapLegend from "./components/MapLegend.vue";
-// import MetroChart from "./components/MetroChart.vue";
+import MetroChart from "./components/MetroChart.vue";
 // import HeatmapChart from "./components/HeatmapChart.vue";
-// import PolarAreaChart from "./components/PolarAreaChart.vue";
+import PolarAreaChart from "./components/PolarAreaChart.vue";
 // import ColumnLineChart from "./components/ColumnLineChart.vue";
 // import BarChartWithGoal from "./components/BarChartWithGoal.vue";
-// import IconPercentChart from "./components/IconPercentChart.vue";
+import IconPercentChart from "./components/IconPercentChart.vue";
 
 const props = defineProps({
 	style: { type: Object, default: () => ({}) },
@@ -143,6 +143,18 @@ function returnChartComponent(name: string) {
 			return BarChart;
 		case "MapLegend":
 			return MapLegend;
+		case "MetroChart":
+			return MetroChart;
+		case "TimelineSeparateChart":
+			return TimelineSeparateChart;
+		case "TimelineStackedChart":
+			return TimelineStackedChart;
+		case "PolarAreaChart":
+			return PolarAreaChart;
+		case "IconPercentChart":
+			return IconPercentChart;
+		case "ColumnChart":
+			return ColumnChart;
 		default:
 			return MapLegend;
 	}
@@ -295,19 +307,19 @@ function returnChartComponent(name: string) {
 				:map_filter_on="mode.includes('map')"
 				:key="`${props.config.index}-${item}-chart`"
 				@filterByParam="
-					(map_filter, map_config, x, y) =>
+					(map_filter: MapFilter, map_config: MapConfig[], x: string | null, y: string | null) =>
 						$emit('filterByParam', map_filter, map_config, x, y)
 				"
 				@filterByLayer="
-					(map_config, x) => $emit('filterByLayer', map_config, x)
+					(map_config: MapConfig[], x: string) => $emit('filterByLayer', map_config, x)
 				"
 				@clearByParamFilter="
-					(map_config) => $emit('clearByParamFilter', map_config)
+					(map_config: MapConfig[]) => $emit('clearByParamFilter', map_config)
 				"
 				@clearByLayerFilter="
-					(map_config) => $emit('clearByLayerFilter', map_config)
+					(map_config: MapConfig[]) => $emit('clearByLayerFilter', map_config)
 				"
-				@fly="(location) => $emit('fly', location)"
+				@fly="(location: any) => $emit('fly', location)"
 			>
 			</component>
 		</div>

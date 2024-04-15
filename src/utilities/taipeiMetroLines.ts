@@ -1,4 +1,11 @@
-export const lineInfo = {
+type lineInfoType = {
+	BL: { name: string; id: string }[];
+	R: { name: string; id: string }[];
+	G: { name: string; id: string }[];
+	O: { name: string; id: string }[];
+};
+
+export const lineInfo: lineInfoType = {
 	BL: [
 		{ name: "頂埔", id: "BL01" },
 		{ name: "永寧", id: "BL02" },
@@ -87,7 +94,7 @@ export const lineInfo = {
 		{ name: "中山國小", id: "O10" },
 		{ name: "民權西路", id: "O11" },
 		{ name: "大橋頭", id: "O12" },
-		{ name: "往迴龍", id: 0 },
+		{ name: "往迴龍", id: "0" },
 		{ name: "台北橋", id: "O13" },
 		{ name: "菜寮", id: "O14" },
 		{ name: "三重", id: "O15" },
@@ -97,7 +104,7 @@ export const lineInfo = {
 		{ name: "輔大", id: "O19" },
 		{ name: "丹鳳", id: "O20" },
 		{ name: "迴龍", id: "O21" },
-		{ name: "往蘆洲", id: 0 },
+		{ name: "往蘆洲", id: "0" },
 		{ name: "三重國小", id: "O50" },
 		{ name: "三和國中", id: "O51" },
 		{ name: "徐匯中學", id: "O52" },
