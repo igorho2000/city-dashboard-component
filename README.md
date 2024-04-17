@@ -1,9 +1,34 @@
-# Vue 3 + TypeScript + Vite
+# City Dashboard Component
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+## Requirements
 
-## Recommended Setup
+`Vue 3` `npm > v20`
 
-- [VS Code](https://code.visualstudio.com/) + [Vue - Official](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (previously Volar) and disable Vetur
+## Installation
 
-- Use [vue-tsc](https://github.com/vuejs/language-tools/tree/master/packages/tsc) for performing the same type checking from the command line, or for generating d.ts files for SFCs.
+1. Install the package via npm.
+```
+npm i city-dashboard-component
+```
+
+2. Import the stylesheet to `main.js`.
+
+```js
+import "city-dashboard-component/style.css";
+```
+
+3. Import the component.
+
+```
+import { DashboardComponent } from "city-dashboard-component";
+```
+
+## Props
+
+TBD
+
+## Events
+
+TBD
+
+## Contribute
