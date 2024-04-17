@@ -2353,11 +2353,11 @@
 			},
 			"name": "社福機構",
 			"source": "社會局",
-			"time_from": "static",
+			"time_from": "maintain",
 			"time_to": null,
 			"update_freq": null,
 			"update_freq_unit": null,
-			"short_desc": "顯示社會福利機構點位及機構類型",
+			"short_desc": "顯示社會福利機構點位及機構類型顯示社會福利機構點位及",
 			"long_desc": "顯示社會福利機構點位及機構類型，資料來源為台北市社會局內部資料，每月15日更新。",
 			"use_case": "根據機構空間的分佈情況，檢視社會福利機構是否均勻分布，同時整合市有土地、社會住宅等潛在可使用之空間，以研擬增設位置與類型的方案。",
 			"links": [

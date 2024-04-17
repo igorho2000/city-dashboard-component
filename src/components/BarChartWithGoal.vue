@@ -149,14 +149,14 @@ function handleDataSelection(_e: any, _chartContext: any, config: any) {
 	if (
 		`${config.dataPointIndex}-${config.seriesIndex}` !== selectedIndex.value
 	) {
-		// Supports filtering by xAxis
+		// Supports filtering by xAxis and yAxis
 		if (props.map_filter.mode === "byParam") {
 			emits(
 				"filterByParam",
 				props.map_filter,
 				props.map_config,
 				config.w.globals.labels[config.dataPointIndex],
-				null
+				props.series[0].name // Only the first series can be clicked in apexcharts
 			);
 		}
 		// Supports filtering by xAxis

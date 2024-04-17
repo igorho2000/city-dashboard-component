@@ -4,6 +4,16 @@
 import { ref, defineEmits } from "vue";
 import { MapConfig, MapFilter } from "../utilities/ComponentConfig";
 
+import bus from "../assets/map/bus.png";
+import metro from "../assets/map/metro.png";
+import triangle_green from "../assets/map/triangle_green.png";
+import triangle_white from "../assets/map/triangle_white.png";
+import bike_green from "../assets/map/bike_green.png";
+import bike_orange from "../assets/map/bike_orange.png";
+import bike_red from "../assets/map/bike_red.png";
+import cross_bold from "../assets/map/cross_bold.png";
+import cross_normal from "../assets/map/cross_normal.png";
+
 const props = defineProps([
 	"chart_config",
 	"series",
@@ -25,6 +35,31 @@ const emits = defineEmits<{
 	(e: "clearByLayerFilter", map_config: MapConfig[]): void;
 	(e: "fly", location: any): void;
 }>();
+
+function returnIcon(name: string) {
+	switch (name) {
+		case "bus":
+			return bus;
+		case "metro":
+			return metro;
+		case "triangle_green":
+			return triangle_green;
+		case "triangle_white":
+			return triangle_white;
+		case "bike_green":
+			return bike_green;
+		case "bike_orange":
+			return bike_orange;
+		case "bike_red":
+			return bike_red;
+		case "cross_bold":
+			return cross_bold;
+		case "cross_normal":
+			return cross_normal;
+		default:
+			return "";
+	}
+}
 
 const selectedIndex = ref<null | number>(null);
 
@@ -82,7 +117,7 @@ function handleDataSelection(index: number) {
 						borderRadius: item.type === 'circle' ? '50%' : '2px',
 					}"
 				></div>
-				<img v-else :src="`/src/assets/map/${item.icon}.png`" />
+				<img v-else :src="returnIcon(item.icon)" />
 				<!-- If there is a value attached, show the value -->
 				<div v-if="item.value">
 					<h5>{{ item.name }}</h5>

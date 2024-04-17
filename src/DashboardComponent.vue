@@ -32,6 +32,24 @@ import ColumnLineChart from "./components/ColumnLineChart.vue";
 import BarChartWithGoal from "./components/BarChartWithGoal.vue";
 import IconPercentChart from "./components/IconPercentChart.vue";
 
+import MapLegendSvg from "./assets/chart/MapLegend.svg";
+import DistrictChartSvg from "./assets/chart/DistrictChart.svg";
+import TimelineStackedChartSvg from "./assets/chart/TimelineStackedChart.svg";
+import BarChartSvg from "./assets/chart/BarChart.svg";
+import BarPercentChartSvg from "./assets/chart/BarPercentChart.svg";
+import ColumnChartSvg from "./assets/chart/ColumnChart.svg";
+import ColumnLineChartSvg from "./assets/chart/ColumnLineChart.svg";
+import DonutChartSvg from "./assets/chart/DonutChart.svg";
+import GuageChartSvg from "./assets/chart/GuageChart.svg";
+import HeatmapChartSvg from "./assets/chart/HeatmapChart.svg";
+import IconPercentChartSvg from "./assets/chart/IconPercentChart.svg";
+import MetroChartSvg from "./assets/chart/MetroChart.svg";
+import PolarAreaChartSvg from "./assets/chart/PolarAreaChart.svg";
+import RadarChartSvg from "./assets/chart/RadarChart.svg";
+import TimelineSeparateChartSvg from "./assets/chart/TimelineSeparateChart.svg";
+import BarChartWithGoalSvg from "./assets/chart/BarChartWithGoal.svg";
+import TreemapChartSvg from "./assets/chart/TreemapChart.svg";
+
 const props = defineProps({
 	style: { type: Object, default: () => ({}) },
 	mode: {
@@ -135,44 +153,44 @@ function updateMouseLocation(e: any) {
 function changeShowTagTooltipState(state: boolean) {
 	showTagTooltip.value = state;
 }
-function returnChartComponent(name: string) {
+function returnChartComponent(name: string, svg: boolean = false) {
 	switch (name) {
 		case "DistrictChart":
-			return DistrictChart;
+			return svg ? DistrictChartSvg : DistrictChart;
 		case "BarChart":
-			return BarChart;
+			return svg ? BarChartSvg : BarChart;
 		case "MapLegend":
-			return MapLegend;
+			return svg ? MapLegendSvg : MapLegend;
 		case "MetroChart":
-			return MetroChart;
+			return svg ? MetroChartSvg : MetroChart;
 		case "TimelineSeparateChart":
-			return TimelineSeparateChart;
+			return svg ? TimelineSeparateChartSvg : TimelineSeparateChart;
 		case "TimelineStackedChart":
-			return TimelineStackedChart;
+			return svg ? TimelineStackedChartSvg : TimelineStackedChart;
 		case "PolarAreaChart":
-			return PolarAreaChart;
+			return svg ? PolarAreaChartSvg : PolarAreaChart;
 		case "IconPercentChart":
-			return IconPercentChart;
+			return svg ? IconPercentChartSvg : IconPercentChart;
 		case "ColumnChart":
-			return ColumnChart;
+			return svg ? ColumnChartSvg : ColumnChart;
 		case "DonutChart":
-			return DonutChart;
+			return svg ? DonutChartSvg : DonutChart;
 		case "TreemapChart":
-			return TreemapChart;
+			return svg ? TreemapChartSvg : TreemapChart;
 		case "BarPercentChart":
-			return BarPercentChart;
+			return svg ? BarPercentChartSvg : BarPercentChart;
 		case "GuageChart":
-			return GuageChart;
+			return svg ? GuageChartSvg : GuageChart;
 		case "RadarChart":
-			return RadarChart;
+			return svg ? RadarChartSvg : RadarChart;
 		case "HeatmapChart":
-			return HeatmapChart;
+			return svg ? HeatmapChartSvg : HeatmapChart;
 		case "ColumnLineChart":
-			return ColumnLineChart;
+			return svg ? ColumnLineChartSvg : ColumnLineChart;
 		case "BarChartWithGoal":
-			return BarChartWithGoal;
+			return svg ? BarChartWithGoalSvg : BarChartWithGoal;
 		default:
-			return MapLegend;
+			return svg ? MapLegendSvg : MapLegend;
 	}
 }
 </script>
@@ -188,6 +206,7 @@ function returnChartComponent(name: string) {
 			large: mode === 'large',
 			preview: mode === 'preview',
 		}"
+		:style="style"
 	>
 		<!-- Header -->
 		<div class="dashboardcomponent-header">
@@ -229,7 +248,10 @@ function returnChartComponent(name: string) {
 				</div>
 			</div>
 			<!-- Upper Right Corner -->
-			<div v-if="['default', 'half', 'preview'].includes(mode)">
+			<div
+				class="dashboardcomponent-header-button"
+				v-if="['default', 'half', 'preview'].includes(mode)"
+			>
 				<button
 					v-if="addBtn"
 					@click="$emit('add', config.id, config.name)"
@@ -299,7 +321,7 @@ function returnChartComponent(name: string) {
 				<img
 					v-for="chart in props.config.chart_config.types"
 					:key="`${props.config.index} - ${chart}`"
-					:src="`/src/assets/chart/${chart}.svg`"
+					:src="returnChartComponent(chart, true).toString()"
 				/>
 			</div>
 		</div>
@@ -471,6 +493,7 @@ button:hover {
 	&-header {
 		display: flex;
 		justify-content: space-between;
+		overflow: visible;
 
 		h3 {
 			display: flex;
@@ -485,10 +508,12 @@ button:hover {
 			color: var(--dashboardcomponent-color-complement-text);
 			font-size: var(--dashboardcomponent-font-s);
 			font-weight: 400;
+			overflow: visible;
 
 			span {
+				margin-left: 4px !important;
 				margin: 0 4px;
-				color: rgb(237, 90, 90);
+				color: rgb(237, 90, 90) !important;
 				font-size: 1rem;
 				font-family: var(--dashboardcomponent-font-icon);
 				user-select: none;
@@ -518,26 +543,32 @@ button:hover {
 				user-select: none;
 			}
 		}
+		&-button {
+			min-width: 48px;
+			display: flex;
+			justify-content: flex-end;
+			align-items: flex-start;
 
-		button span {
-			color: var(--dashboardcomponent-color-complement-text);
-			font-family: var(--dashboardcomponent-font-icon);
-			font-size: calc(
-				var(--dashboardcomponent-font-l) *
-					var(--dashboardcomponent-font-to-icon)
-			);
-			transition: color 0.2s;
+			button span {
+				color: var(--dashboardcomponent-color-complement-text);
+				font-family: var(--dashboardcomponent-font-icon);
+				font-size: calc(
+					var(--dashboardcomponent-font-l) *
+						var(--dashboardcomponent-font-to-icon)
+				);
+				transition: color 0.2s;
 
-			&:hover {
-				color: white;
+				&:hover {
+					color: white;
+				}
 			}
-		}
 
-		button.isfavorite span {
-			color: rgb(255, 65, 44);
+			button.isfavorite span {
+				color: rgb(255, 65, 44);
 
-			&:hover {
-				color: rgb(160, 112, 106);
+				&:hover {
+					color: rgb(160, 112, 106);
+				}
 			}
 		}
 

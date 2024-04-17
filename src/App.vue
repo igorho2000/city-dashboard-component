@@ -104,13 +104,13 @@ import TestComp from "./assets/backup_all_components.json";
 			:info-btn="true"
 		/>
 		<DashboardComponent
-			:config="TestComp.data[91]"
+			:config="TestComp.data[15]"
 			mode="half"
 			:favorite-btn="true"
 			:info-btn="true"
 		/>
 		<DashboardComponent
-			:config="TestComp.data[103]"
+			:config="TestComp.data[82]"
 			mode="preview"
 			:favorite-btn="true"
 			:add-btn="true"
