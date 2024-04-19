@@ -1,6 +1,13 @@
 {
 	"name": "city-dashboard-component",
-	"version": "0.2.1",
+	"author": "Igor Ho",
+	"keywords": [
+		"city-dashboard",
+		"city-dashboard-component",
+		"one-premium"
+	],
+	"version": "0.2.2",
+	"license": "Apache-2.0",
 	"type": "module",
 	"files": [
 		"dist"
@@ -35,5 +42,9 @@
 		"typescript": "^5.2.2",
 		"vite": "^5.2.0",
 		"vue-tsc": "^2.0.6"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/igorho2000/city-dashboard-component"
 	}
 }
