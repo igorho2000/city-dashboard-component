@@ -142,6 +142,18 @@ const tooltipPosition = computed(() => {
 });
 
 function changeActiveChart(chartName: string) {
+	if (
+		props.mode === "map" &&
+		props.config.map_config &&
+		props.config.map_config[0] &&
+		props.config.map_filter
+	) {
+		if (props.config.map_filter.mode === "byParam") {
+			emits("clearByParamFilter", props.config.map_config);
+		} else if (props.config.map_filter.mode === "byLayer") {
+			emits("clearByLayerFilter", props.config.map_config);
+		}
+	}
 	activeChart.value = chartName;
 }
 // Updates the location for the tag tooltip

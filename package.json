@@ -6,7 +6,7 @@
 		"city-dashboard-component",
 		"one-premium"
 	],
-	"version": "0.2.2",
+	"version": "1.0.1",
 	"license": "Apache-2.0",
 	"type": "module",
 	"files": [
