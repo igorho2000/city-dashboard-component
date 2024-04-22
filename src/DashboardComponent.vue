@@ -724,12 +724,6 @@ button:hover {
 				user-select: none;
 			}
 		}
-
-		button {
-			@media (max-width: 760px) {
-				display: none !important;
-			}
-		}
 	}
 }
 
