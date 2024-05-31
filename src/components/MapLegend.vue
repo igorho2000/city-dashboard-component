@@ -13,6 +13,7 @@ import bike_orange from "../assets/map/bike_orange.png";
 import bike_red from "../assets/map/bike_red.png";
 import cross_bold from "../assets/map/cross_bold.png";
 import cross_normal from "../assets/map/cross_normal.png";
+import cctv from "../assets/map/cctv.png";
 
 const props = defineProps([
 	"chart_config",
@@ -56,6 +57,8 @@ function returnIcon(name: string) {
 			return cross_bold;
 		case "cross_normal":
 			return cross_normal;
+		case "cctv":
+			return cctv;
 		default:
 			return "";
 	}
