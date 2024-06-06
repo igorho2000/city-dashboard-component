@@ -20,5 +20,6 @@ export const chartTypes: chartType = {
 	BarChartWithGoal: "長條圖(目標)", // V
 	IconPercentChart: "圖示比例圖", // V
 	SpeedometerChart: "儀表板圖", // 暫時不用
+	IndicatorChart: "指標圖", // V
 	MapLegend: "地圖圖例", // V
 };

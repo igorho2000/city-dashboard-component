@@ -9,7 +9,7 @@ import TestComp from "./assets/backup_all_components.json";
 <template>
 	<div class="app">
 		<DashboardComponent
-			:config="TestComp.data[59]"
+			:config="TestComp.data[160]"
 			mode="default"
 			:favorite-btn="true"
 			:info-btn="true"

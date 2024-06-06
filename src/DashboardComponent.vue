@@ -31,6 +31,7 @@ import PolarAreaChart from "./components/PolarAreaChart.vue";
 import ColumnLineChart from "./components/ColumnLineChart.vue";
 import BarChartWithGoal from "./components/BarChartWithGoal.vue";
 import IconPercentChart from "./components/IconPercentChart.vue";
+import IndicatorChart from "./components/IndicatorChart.vue";
 
 import MapLegendSvg from "./assets/chart/MapLegend.svg";
 import DistrictChartSvg from "./assets/chart/DistrictChart.svg";
@@ -49,6 +50,7 @@ import RadarChartSvg from "./assets/chart/RadarChart.svg";
 import TimelineSeparateChartSvg from "./assets/chart/TimelineSeparateChart.svg";
 import BarChartWithGoalSvg from "./assets/chart/BarChartWithGoal.svg";
 import TreemapChartSvg from "./assets/chart/TreemapChart.svg";
+import IndicatorChartSvg from "./assets/chart/IndicatorChart.svg";
 
 const props = defineProps({
 	style: { type: Object, default: () => ({}) },
@@ -201,6 +203,8 @@ function returnChartComponent(name: string, svg: boolean = false) {
 			return svg ? ColumnLineChartSvg : ColumnLineChart;
 		case "BarChartWithGoal":
 			return svg ? BarChartWithGoalSvg : BarChartWithGoal;
+		case "IndicatorChart":
+			return svg ? IndicatorChartSvg : IndicatorChart;
 		default:
 			return svg ? MapLegendSvg : MapLegend;
 	}
