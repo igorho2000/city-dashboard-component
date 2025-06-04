@@ -1,4 +1,4 @@
-# <img src="./src/assets/1premium.png" height="36" /> City Dashboard Component
+# City Dashboard Component
 
 ## Requirements
 
@@ -113,4 +113,4 @@ function showMoreInfo(config) {
 
 For more examples, please refer to [Taipei City Dashboard](https://citydashboard.taipei) or its [GitHub repository](https://github.com/tpe-doit/Taipei-City-Dashboard).
 
-© 2023-2024 Igor Ho, One Premium Ltd.
+© 2023-2024 Igor Ho
